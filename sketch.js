@@ -1,40 +1,68 @@
-var wall,thickness;
-var bullet,speed,weight;
+const Engine = Matter.Engine;
+const World = Matter.World;
+const Bodies = Matter.Bodies;
+//const Body = Matter.Body;
+
+function preload()
+{
+	
+}
+
+var paper;
+var box;
+var dustbin;
+var side;
 
 function setup() {
-  createCanvas(1600,400);
-  bullet=createSprite(400, 200, 50, 20);
-  wall=createSprite(1200,200,thickness,height/2);
+	createCanvas(800, 700);
+
+	
+	engine = Engine.create();
+	world = engine.world;
+
+	paper= new Paper(200,200,50);
+	
+	ground = new Ground(600,600,1200,20);
+
+	box= new Dustbin(610,580,200,20);
+	//box.shapeColor=color("red");
+
+	dustbin= new Dustbin(500,540,20,100);
+	//dustbin2.shapeColor=color("red");
+
+	side=new Dustbin(723,540,20,100);
+	//dustbin3.shapeColor=color("red");
+
+
+	
   
 }
+  
+
 
 function draw() {
-  background (0);
-  thickness=random(22,83); 
-speed=random(223,321);
-weight=random(30,52);
+	Engine.update(engine);
 
-bullet.velocityX=speed;
+  rectMode(CENTER);
+  background(0);
+
+  ground.display();
+  paper.display();
+  box.display();
+  dustbin.display();
+  side.display();
   
-if (hasCollided(bullet,wall))
-{
-   bullet.velocityX=0;
-   var damage=0.5*weight*speed*speed/(thickness*thickness*thickness);
+ 
+}
 
-   if (damage>10)
-     {
-       wall.shapeColor=color("red");
-     }
-     
-     if (damage=10)
-     {
-       wall.shapeColor=color("white");
-     }
 
-     if (damage<10)
-       {
-         wall.shapeColor=color("green");
-       }
+function keyPressed(){
+
+		if (keyCode===UP_ARROW){
+
+			Matter.Body.applyForce(paper.body,paper.body.posiyion,{x:85,y:-95});
+
+		}
 
 }
 
@@ -43,5 +71,3 @@ if (hasCollided(bullet,wall))
 
 
 
-  drawSprites();
-}
